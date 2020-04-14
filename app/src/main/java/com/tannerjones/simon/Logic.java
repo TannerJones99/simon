@@ -1,5 +1,8 @@
 package com.tannerjones.simon;
 
+import android.content.Context;
+import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,12 +11,14 @@ public class Logic {
     Random rand;
     int currentGame;
     ButtonHandler buttons;
+    SoundHandler soundHandler;
 
-    Logic(int gamemode){
+    Logic(int gamemode, Context context){
         sequence = new ArrayList<>();
         rand = new Random();
         currentGame = gamemode;
         buttons = new ButtonHandler(gamemode);
+        soundHandler = new SoundHandler(context);
     }
 
     public void addNewValueToSequence(){
@@ -41,7 +46,7 @@ public class Logic {
 
     public void playSequence(){
         for(int i = 0; i < sequence.size(); i++){
-            SoundHandler.playSoundByValue(sequence.get(i));
+            soundHandler.playSoundByValue(sequence.get(i));
             buttons.flashButtonByValue(sequence.get(i));
             // set timer before next beep.
         }
