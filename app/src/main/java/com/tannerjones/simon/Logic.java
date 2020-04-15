@@ -1,12 +1,15 @@
 package com.tannerjones.simon;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Logic {
+public class Logic extends Activity {
     ArrayList<Integer> sequence;
     Random rand;
     int currentGame;
@@ -46,9 +49,8 @@ public class Logic {
 
     public void playSequence(){
         for(int i = 0; i < sequence.size(); i++){
-            soundHandler.playSoundByValue(sequence.get(i));
-            buttons.flashButtonByValue(sequence.get(i));
-            // set timer before next beep.
+            Timer timer = new Timer();
+            timer.schedule(new SequencePlayer(i), 5);
         }
 
     }
@@ -56,6 +58,25 @@ public class Logic {
     public void playClicked(int tag){
         soundHandler.playSoundByValue(sequence.get(tag));
         buttons.flashButtonByValue(sequence.get(tag));
+    }
+
+    class SequencePlayer extends TimerTask{
+
+        int i;
+        public SequencePlayer(int i){
+            this.i = i;
+        }
+
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    soundHandler.playSoundByValue(sequence.get(i));
+                    buttons.flashButtonByValue(sequence.get(i));
+                }
+            });
+        }
     }
 
 

@@ -1,10 +1,12 @@
 package com.tannerjones.simon;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -48,13 +50,24 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
         if(logic.checkIfNext((int) view.getTag(), counter)){
             counter++;
             if(counter == logic.getSizeOfSequence()){
-                // set timer
                 roundsCorrect++;
                 playSequence();
             }
         }
         else{
             // alert Dialog display you made through x number of rounds;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Game Over");
+            builder.setMessage("Game over, you made it through "+roundsCorrect+" rounds of Simon. Return to menu");
+
+            builder.setPositiveButton("Menu", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 
