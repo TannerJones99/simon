@@ -2,6 +2,7 @@ package com.tannerjones.simon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -13,22 +14,21 @@ public class Logic extends Activity {
     ArrayList<Integer> sequence;
     Random rand;
     int currentGame;
-    ButtonHandler buttons;
+    ButtonHandler buttonHandler;
     SoundHandler soundHandler;
 
-    Logic(int gamemode, Context context){
+    Logic(int gamemode, Context context, Activity activity, ArrayList<Button> button){
         sequence = new ArrayList<>();
         rand = new Random();
         currentGame = gamemode;
-        buttons = new ButtonHandler(gamemode);
+        buttonHandler = new ButtonHandler(gamemode, activity, button);
         soundHandler = new SoundHandler(context);
     }
 
     public void addNewValueToSequence(){
         int value;
-        do{
-            value = rand.nextInt(5);
-        }while(value != 0);
+        value = rand.nextInt(4);
+        Log.i("NEW VALUE", ""+value);
         sequence.add(value);
     }
 
@@ -50,14 +50,14 @@ public class Logic extends Activity {
     public void playSequence(){
         for(int i = 0; i < sequence.size(); i++){
             Timer timer = new Timer();
-            timer.schedule(new SequencePlayer(i), 5);
+            timer.schedule(new SequencePlayer(i), 1000);
         }
 
     }
 
     public void playClicked(int tag){
-        soundHandler.playSoundByValue(sequence.get(tag));
-        buttons.flashButtonByValue(sequence.get(tag));
+        soundHandler.playSoundByValue(tag);
+        buttonHandler.flashButtonByValue(tag);
     }
 
     class SequencePlayer extends TimerTask{
@@ -73,7 +73,7 @@ public class Logic extends Activity {
                 @Override
                 public void run() {
                     soundHandler.playSoundByValue(sequence.get(i));
-                    buttons.flashButtonByValue(sequence.get(i));
+                    buttonHandler.flashButtonByValue(sequence.get(i));
                 }
             });
         }

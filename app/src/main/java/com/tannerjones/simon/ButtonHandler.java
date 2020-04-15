@@ -2,6 +2,7 @@ package com.tannerjones.simon;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,30 +11,27 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ButtonHandler extends Activity {
-    ArrayList<Button> buttons;
+public class ButtonHandler {
     int currentGamemode;
+    Activity activty;
+    ArrayList<Button> buttons;
 
-    public ButtonHandler(int currentGamemode){
+    public ButtonHandler(int currentGamemode, Activity activity, ArrayList<Button> buttons){
         // set buttons depending on which game it is.
-        for(int i = 1; i < 5; i++){
-            String buttonId;
-            buttonId = "button"+i;
-            int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
-            buttons.add((Button)findViewById(resId));
-        }
         this.currentGamemode = currentGamemode;
+        this.activty = activity;
+        this.buttons = buttons;
         if(currentGamemode == 1){
             // assuming game uses same color buttons
             for(int i = 0; i < buttons.size(); i++){
-                buttons.get(i).setBackground(getDrawable(R.drawable.darkred));
+                buttons.get(i).setBackground(activity.getDrawable(R.drawable.darkred));
             }
         }
         else{
-            buttons.get(0).setBackground(getDrawable(R.drawable.darkred));
-            buttons.get(1).setBackground(getDrawable(R.drawable.darkblue));
-            buttons.get(2).setBackground(getDrawable(R.drawable.darkgreen));
-            buttons.get(3).setBackground(getDrawable(R.drawable.darkpurple));
+            buttons.get(0).setBackground(activity.getDrawable(R.drawable.darkred));
+            buttons.get(1).setBackground(activity.getDrawable(R.drawable.darkblue));
+            buttons.get(2).setBackground(activity.getDrawable(R.drawable.darkgreen));
+            buttons.get(3).setBackground(activity.getDrawable(R.drawable.darkpurple));
         }
     }
 
@@ -44,25 +42,25 @@ public class ButtonHandler extends Activity {
         }
             // assuming game uses same color buttons
         else{
-            if(value == 1){
+            if(value == 0){
                 performFlash(value, R.drawable.lightred, R.drawable.darkred);
             }
-            else if(value == 2){
+            else if(value == 1){
                 performFlash(value, R.drawable.lightblue, R.drawable.darkblue);
             }
-            else if(value == 3){
+            else if(value == 2){
                 performFlash(value, R.drawable.lightgreen, R.drawable.darkgreen);
             }
-            else if(value == 4){
+            else if(value == 3){
                 performFlash(value, R.drawable.lightpurple, R.drawable.darkpurple);
             }
         }
     }
 
     public void performFlash(int value, int idLight, int idDark){
-        buttons.get(value-1).setBackground(getDrawable(idLight));
+        buttons.get(value).setBackground(activty.getDrawable(idLight));
         Timer timer = new Timer();
-        timer.schedule(new switchBack(value, idDark), 2);
+        timer.schedule(new switchBack(value, idDark), 500);
     }
 
     class switchBack extends TimerTask {
@@ -76,10 +74,10 @@ public class ButtonHandler extends Activity {
 
         @Override
         public void run() {
-            runOnUiThread(new Runnable() {
+            activty.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    buttons.get(value).setBackground(getDrawable(id));
+                    buttons.get(value).setBackground(activty.getDrawable(id));
                 }
             });
         }

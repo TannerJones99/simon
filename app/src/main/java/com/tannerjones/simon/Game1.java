@@ -2,6 +2,7 @@ package com.tannerjones.simon;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,11 +23,10 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gamelayout);
-        logic = new Logic(1, getApplicationContext());
         buttons = new ArrayList<>();
-        for(int i = 1; i < 5; i++){
+        for(int i = 0; i < 4; i++){
             String buttonId;
-            buttonId = "button"+i;
+            buttonId = "button"+(i+1);
             int resId = getResources().getIdentifier(buttonId, "id", getPackageName());
             buttons.add((Button)findViewById(resId));
             buttons.get(i).setTag(i);
@@ -37,8 +37,8 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
+        logic = new Logic(1, getApplicationContext(), this, buttons);
         logic.addNewValueToSequence();
-        // set delay timer for start.
         playSequence();
         counter = 0;
         roundsCorrect = 0;
@@ -46,11 +46,14 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        logic.playClicked(counter);
+        logic.playClicked((int)view.getTag());
+        Log.i("Tag", ""+(int)view.getTag());
         if(logic.checkIfNext((int) view.getTag(), counter)){
             counter++;
             if(counter == logic.getSizeOfSequence()){
                 roundsCorrect++;
+                logic.addNewValueToSequence();
+                counter = 0;
                 playSequence();
             }
         }
