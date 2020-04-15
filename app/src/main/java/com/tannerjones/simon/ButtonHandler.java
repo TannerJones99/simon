@@ -34,6 +34,7 @@ public class ButtonHandler extends AppCompatActivity {
         }
     }
 
+
     public void flashButtonByValue(int value){
         if(currentGamemode == 1) {
             if(value == 1){

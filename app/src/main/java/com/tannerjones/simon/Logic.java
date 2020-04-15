@@ -53,5 +53,10 @@ public class Logic {
 
     }
 
+    public void playClicked(int tag){
+        soundHandler.playSoundByValue(sequence.get(tag));
+        buttons.flashButtonByValue(sequence.get(tag));
+    }
+
 
 }
