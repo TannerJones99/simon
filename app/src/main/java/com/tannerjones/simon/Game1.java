@@ -18,6 +18,7 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
     ArrayList<Button> buttons;
     int counter;
     int roundsCorrect;
+    Button startButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +33,14 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             buttons.get(i).setTag(i);
             buttons.get(i).setOnClickListener(this);
         }
+        startButton = findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startButton.setVisibility(View.GONE);
+                playSequence();
+            }
+        });
     }
 
     @Override
@@ -39,7 +48,6 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
         super.onStart();
         logic = new Logic(1, getApplicationContext(), this, buttons);
         logic.addNewValueToSequence();
-        playSequence();
         counter = 0;
         roundsCorrect = 0;
     }

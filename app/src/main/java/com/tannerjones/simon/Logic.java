@@ -2,6 +2,7 @@ package com.tannerjones.simon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 
@@ -16,6 +17,7 @@ public class Logic extends Activity {
     int currentGame;
     ButtonHandler buttonHandler;
     SoundHandler soundHandler;
+    int loopCounter;
 
     Logic(int gamemode, Context context, Activity activity, ArrayList<Button> button){
         sequence = new ArrayList<>();
@@ -48,11 +50,13 @@ public class Logic extends Activity {
     }
 
     public void playSequence(){
-        for(int i = 0; i < sequence.size(); i++){
-            Timer timer = new Timer();
-            timer.schedule(new SequencePlayer(i), 1000);
-        }
+        Timer timer = new Timer();
+        long timeDelay = 1000;
 
+        for(loopCounter = 0; loopCounter < sequence.size(); loopCounter++){
+            timer.schedule(new SequencePlayer(loopCounter), timeDelay);
+            timeDelay += 1000;
+        }
     }
 
     public void playClicked(int tag){
@@ -63,21 +67,15 @@ public class Logic extends Activity {
     class SequencePlayer extends TimerTask{
 
         int i;
-        public SequencePlayer(int i){
+
+        SequencePlayer(int i){
             this.i = i;
         }
-
         @Override
         public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    soundHandler.playSoundByValue(sequence.get(i));
-                    buttonHandler.flashButtonByValue(sequence.get(i));
-                }
-            });
+            soundHandler.playSoundByValue(sequence.get(i));
+            buttonHandler.flashButtonByValue(sequence.get(i));
         }
     }
-
 
 }
