@@ -2,6 +2,7 @@ package com.tannerjones.simon;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 
@@ -57,29 +58,17 @@ public class ButtonHandler {
         }
     }
 
-    public void performFlash(int value, int idLight, int idDark){
+    public void performFlash(int value, int idLight, final int idDark){
+        final int valueUsed = value;
         buttons.get(value).setBackground(activty.getDrawable(idLight));
         Timer timer = new Timer();
-        timer.schedule(new switchBack(value, idDark), 500);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                buttons.get(valueUsed).setBackground(activty.getDrawable(idDark));
+            }
+        }, 500);
     }
 
-    class switchBack extends TimerTask {
 
-        int value;
-        int id;
-        public switchBack(int value, int id){
-            this.value = value;
-            this.id = id;
-        }
-
-        @Override
-        public void run() {
-            activty.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    buttons.get(value).setBackground(activty.getDrawable(id));
-                }
-            });
-        }
-    }
 }
