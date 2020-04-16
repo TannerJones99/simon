@@ -69,7 +69,7 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             // alert Dialog display you made through x number of rounds;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Game Over");
-            builder.setMessage("Game over, you made it through "+roundsCorrect+" rounds of Simon. Return to menu");
+            builder.setMessage("Game over, you made it through "+roundsCorrect+" rounds Same Color Simon. Return to menu");
 
             builder.setPositiveButton("Menu", new DialogInterface.OnClickListener() {
                 @Override

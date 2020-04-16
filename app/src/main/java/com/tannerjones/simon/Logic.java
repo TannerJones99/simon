@@ -49,7 +49,22 @@ public class Logic extends Activity {
         return sequence;
     }
 
+    private void generateRandomSequence(){
+
+        ArrayList<Integer> newSequence = new ArrayList<>();
+        int value;
+        for(int i = 0; i < sequence.size(); i++){
+            value = rand.nextInt(4);
+            newSequence.add(value);
+        }
+
+        this.sequence = newSequence;
+    }
+
     public void playSequence(){
+        if(currentGame == 3){
+            generateRandomSequence();
+        }
         Timer timer = new Timer();
         long timeDelay = 1000;
 
