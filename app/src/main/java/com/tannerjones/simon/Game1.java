@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -16,14 +17,22 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
 
     Logic logic;
     ArrayList<Button> buttons;
+    TextView title;
+    TextView round;
     int counter;
     int roundsCorrect;
-    Button startButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gamelayout);
+
+        title = findViewById(R.id.game_title);
+        title.setText("Simon Sound");
+
+        round = findViewById(R.id.round);
+        round.setText("Round 1");
+
         buttons = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             String buttonId;
@@ -33,14 +42,20 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             buttons.get(i).setTag(i);
             buttons.get(i).setOnClickListener(this);
         }
-        startButton = findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startButton.setVisibility(View.GONE);
-                playSequence();
-            }
-        });
+    }
+
+    // Handle App Minimization for Music
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundHandler.stopAudio();
+    }
+
+    // Handle App Closing for Music
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SoundHandler.stopAudio();
     }
 
     @Override
@@ -48,6 +63,7 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
         super.onStart();
         logic = new Logic(1, getApplicationContext(), this, buttons);
         logic.addNewValueToSequence();
+        playSequence();
         counter = 0;
         roundsCorrect = 0;
     }
@@ -60,6 +76,7 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             counter++;
             if(counter == logic.getSizeOfSequence()){
                 roundsCorrect++;
+                round.setText("Round " + (roundsCorrect+1));
                 logic.addNewValueToSequence();
                 counter = 0;
                 playSequence();
@@ -69,7 +86,7 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             // alert Dialog display you made through x number of rounds;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Game Over");
-            builder.setMessage("Game over, you made it through "+roundsCorrect+" rounds Same Color Simon. Return to menu");
+            builder.setMessage("Game over, you made it through "+roundsCorrect+" rounds of Simon. Return to menu");
 
             builder.setPositiveButton("Menu", new DialogInterface.OnClickListener() {
                 @Override

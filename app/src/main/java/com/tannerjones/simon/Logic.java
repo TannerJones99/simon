@@ -34,6 +34,11 @@ public class Logic extends Activity {
         sequence.add(value);
     }
 
+    public void addCustomValueToSequence(int tag){
+        Log.i("NEW VALUE", ""+ tag);
+        sequence.add(tag);
+    }
+
     public boolean checkIfNext(int value, int position){
         if(sequence.get(position) == value){
             return true;
@@ -88,6 +93,7 @@ public class Logic extends Activity {
         }
         @Override
         public void run() {
+            Log.i("SEQ", String.valueOf(i));
             soundHandler.playSoundByValue(sequence.get(i));
             buttonHandler.flashButtonByValue(sequence.get(i));
         }

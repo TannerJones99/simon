@@ -4,10 +4,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class SoundHandler {
-    MediaPlayer soundEffect1; // change these to final once we have the sound files
-    MediaPlayer soundEffect2;
-    MediaPlayer soundEffect3;
-    MediaPlayer soundEffect4;
+    static MediaPlayer soundEffect1; // change these to final once we have the sound files
+    static MediaPlayer soundEffect2;
+    static MediaPlayer soundEffect3;
+    static MediaPlayer soundEffect4;
 
     public SoundHandler(Context context){
         soundEffect1 = MediaPlayer.create(context, R.raw.select_blip1);
@@ -31,4 +31,12 @@ public class SoundHandler {
         }
     }
 
+    // Helper Method to Stop and Reset MediaPlayer
+    public static void stopAudio() {
+        soundEffect1.stop();
+        soundEffect2.stop();
+        soundEffect3.stop();
+        soundEffect4.stop();
+
+    }
 }
