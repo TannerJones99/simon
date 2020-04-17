@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">simon</string>
+    <string name="info">\u24D8</string>
+    <string name="game1_info">The goal of Simon Sound is to mimic Simon\'s pattern based on the sound. Follow Simon\'s pattern and click each individual button to recreate Simon\'s pattern.</string>
+    <string name="game2_info">The goal of Simon Self is to remember as much of your own custom pattern as possible. Start by choosing a button to start the sequence. Then repeat that sequence, adding more to your pattern as the rounds progress.</string>
+    <string name="game3_info">The goal of Simon Stochastic is to follow Simon\'s patterns. Each round introduces a random pattern to confuse the player. After each round, the pattern grows, so the player must remember more complex patterns as the game progresses.</string>
+    <string name="game3_title">Simon Stochastic</string>
+    <string name="game2_title">Simon Self</string>
+    <string name="game1_title">Simon Sound</string>
 </resources>

@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Setup MediaPlayer
     enum MediaState {NOT_READY, PLAYING, PAUSED, STOPPED};
@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Handle Game Info
+        findViewById(R.id.game1_info).setOnClickListener(this);
+        findViewById(R.id.game2_info).setOnClickListener(this);
+        findViewById(R.id.game3_info).setOnClickListener(this);
+
         // Handle Game Credits
         findViewById(R.id.credits).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +83,23 @@ public class MainActivity extends AppCompatActivity {
                 tv.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), GameInfo.class);
+        if (v.getId() == R.id.game1_info) {
+            intent.putExtra("title", getString(R.string.game1_title));
+            intent.putExtra("info", getString(R.string.game1_info));
+        } else if (v.getId() == R.id.game2_info) {
+            intent.putExtra("title", getString(R.string.game2_title));
+            intent.putExtra("info", getString(R.string.game2_info));
+        } else if (v.getId() == R.id.game3_info) {
+            intent.putExtra("title", getString(R.string.game3_title));
+            intent.putExtra("info", getString(R.string.game3_info));
+        }
+
+        startActivity(intent);
     }
 
     // Handle App Minimization for Music
