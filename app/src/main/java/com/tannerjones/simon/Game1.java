@@ -42,6 +42,8 @@ public class Game1 extends AppCompatActivity implements View.OnClickListener {
             buttons.get(i).setTag(i);
             buttons.get(i).setOnClickListener(this);
         }
+
+        findViewById(R.id.startButton).setVisibility(View.INVISIBLE);
     }
 
     // Handle App Minimization for Music
